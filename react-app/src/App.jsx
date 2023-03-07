@@ -19,9 +19,10 @@ if (window.location.href.split(':')[0] === "http") {
 
 function App() {
   const [products, setProducts] = useState([])
+  const [loadProduct, setLoadProduct] = useState(false)
   const getAllProducts = async () => {
     try {
-      const res = await axios.get('http://localhost:5002/products')
+      const res = await axios.get(`${baseUrl}/products`)
       console.log("rall products", res.data);
       setProducts(res.data.data)
       console.log("sdaasdsa", products);
@@ -31,7 +32,18 @@ function App() {
   }
   useEffect(() => {
     getAllProducts()
-  }, [])
+  }, [loadProduct])
+ 
+  const deleteProduct = async (id) => {
+    try {
+      console.log("ppro _id " , id);
+      const res = await axios.delete(`http://localhost:5002/product/${id}`)
+      console.log("product deleted", res.data);
+      setLoadProduct(!loadProduct)
+    } catch (error) {
+      console.log(error, "Error")
+    }
+  }
 
 
   const validationSchema = yup.object({
@@ -80,7 +92,7 @@ function App() {
       })
         .then(function (response) {
           console.log("res", response);
-          getAllProducts()
+       setLoadProduct(!loadProduct)
         })
         .catch(function (error) {
           console.log(error);
@@ -139,7 +151,9 @@ function App() {
           <p>
           {eachProduct.description}
           </p>
-          <button>Delete Products</button>
+          <button onClick={() => {
+            deleteProduct(eachProduct.id)
+          }}>Delete Products</button>
         </div>
         // <div className="user">{user.desciption}</div>
       ))}

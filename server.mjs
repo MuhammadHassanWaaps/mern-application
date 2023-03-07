@@ -35,9 +35,9 @@ app.post('/product', (req, res) => {
     })
     return;
   }
-  // console.log(body.name);
-  // console.log(body.price);
-  // console.log(body.description);
+  console.log(body.name);
+  console.log(body.price);
+  console.log(body.description);
 
   products.push({
     id: `${new Date().getTime()}`,
@@ -94,7 +94,7 @@ app.delete('/product/:id', (req, res) => {
     res.send({ message: 'products not Founded' }
     )
   }
-  return
+  
 
 })
 
